@@ -1,0 +1,6 @@
+{
+  "name": "PhoneticTranslate - Chrome Extension & Studio",
+  "description": "Extensão para Google Chrome e estúdio interativo de tradução com transcrição fonética precisa (IPA, Respelling, Pinyin, Romaji), síntese de voz e gerador de extensão Manifest V3 pronta para instalar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
