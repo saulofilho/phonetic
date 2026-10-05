@@ -7,6 +7,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![Vite 6](https://img.shields.io/badge/Vite_6-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Automated_CI%2FCD-00ff66?style=for-the-badge&logo=github&logoColor=white)
 ![License Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-ff007f?style=for-the-badge)
 
 <p align="center">
@@ -81,11 +82,25 @@
 ## 📂 Estrutura do Projeto
 
 ```text
-├── public/                     # Assets estáticos e ícones
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml    # Pipeline CI/CD automatizado para o GitHub Pages
+├── public/                     # Assets estáticos e ícones públicos
+│   ├── favicon.svg             # Favicon vetorial Cyberpunk HUD
+│   ├── favicon.ico             # Favicon legado
+│   ├── manifest.webmanifest    # Manifesto PWA com mapeamento de ícones
+│   ├── 404.html                # Roteamento SPA para GitHub Pages
+│   └── icons/
+│       ├── icon16.png          # Ícone 16x16 para barra de ferramentas
+│       ├── icon48.png          # Ícone 48x48 para gerenciador de extensões
+│       ├── icon128.png         # Ícone 128x128 para Chrome Web Store e app
+│       └── icon.svg            # Ícone vetorial SVG mestre
+├── scripts/
+│   └── generate-icons.js       # Gerador determinístico de assets visuais
 ├── src/
 │   ├── components/             # Componentes modulares da interface
 │   │   ├── ChromeSimulator.tsx # Simulador visual do Chrome com injeção de Tooltip
-│   │   ├── ExtensionExporter.tsx# Visualizador de arquivos da extensão e download .zip
+│   │   ├── ExtensionExporter.tsx# Matrix de arquivos, Icon URLs e download .zip
 │   │   ├── FlashcardTrainer.tsx# Sistema de treino de pronúncia com repetição
 │   │   ├── IpaChartModal.tsx   # Tabela periódica interativa de fonemas IPA
 │   │   ├── Navbar.tsx          # Barra de navegação Cyberpunk com status HUD
@@ -93,8 +108,9 @@
 │   ├── data/
 │   │   └── ipaDictionary.ts    # Base léxica de palavras, IPA, respelling e fonemas
 │   ├── utils/
-│   │   ├── extensionCodeGenerator.ts # Gerador do código-fonte do Manifest V3 e empacotador ZIP
-│   │   └── phoneticEngine.ts   # Motor de transcrição fonética e síntese de voz
+│   │   ├── extensionCodeGenerator.ts # Gerador de arquivos Manifest V3 e pacote ZIP
+│   │   ├── phoneticFallback.ts # Motor fonético offline instantâneo
+│   │   └── speech.ts           # Sintetizador de áudio Web Speech API
 │   ├── types.ts                # Definições de tipos TypeScript
 │   ├── App.tsx                 # Componente raiz da aplicação
 │   ├── main.tsx                # Ponto de entrada do React
@@ -103,7 +119,7 @@
 ├── package.json                # Dependências e scripts npm
 ├── server.ts                   # Servidor Express com integração Vite
 ├── tsconfig.json               # Configurações do compilador TypeScript
-└── vite.config.ts              # Configuração do Vite e plugins
+└── vite.config.ts              # Configuração do Vite com base relativa (./)
 ```
 
 ---
@@ -133,15 +149,48 @@
    ```
    Acesse a aplicação no seu navegador em `http://localhost:3000`.
 
-4. **Para gerar o build de produção:**
+4. **Para gerar o build de produção (Full-Stack Express + Vite):**
    ```bash
    npm run build
-   ```
-
-5. **Para iniciar a versão de produção:**
-   ```bash
    npm start
    ```
+
+5. **Para gerar a Versão do GitHub Pages (Estática com Base Relativa):**
+   ```bash
+   npm run build:gh-pages
+   ```
+
+---
+
+## 🌐 Deploy no GitHub Pages (Versão 100% Estática)
+
+O projeto inclui suporte de ponta a ponta para deploy no **GitHub Pages**, funcionando de forma totalmente estática e independente:
+- **Áudio no Cliente**: Síntese de voz via `Web Speech API` diretamente pelo navegador sem necessitar de API externa.
+- **Motor Fonético Híbrido**: Dicionário léxico offline e heurísticas de regras fonéticas incluídas no bundle cliente.
+- **Paths Relativos**: Configuração `base: './'` em `vite.config.ts`, permitindo que a aplicação seja acessada em qualquer subdomínio ou subdiretório (como `https://usuario.github.io/repositorio/`).
+
+### Ativação Automática (GitHub Actions)
+
+1. Suba o código para seu repositório no GitHub (`main` ou `master`).
+2. Acesse seu repositório no GitHub e vá em **Settings** > **Pages**.
+3. Na seção **Build and deployment** > **Source**, selecione **GitHub Actions**.
+4. O workflow configurado em `.github/workflows/deploy-pages.yml` será disparado automaticamente a cada push, compilando e publicando seu site!
+
+---
+
+## 🎨 Ícones e Estrutura de Paths (Icon URL Paths)
+
+Os assets visuais da extensão e do aplicativo web seguem o padrão Cyberpunk Neon e estão organizados nos seguintes caminhos de URL:
+
+| Asset / Tamanho | Path Local / Relativo | Destino / Utilização | Formato |
+| :--- | :--- | :--- | :--- |
+| **Ícone 128x128** | `./icons/icon128.png` | Chrome Web Store, App e PWA Manifest | PNG (128x128) |
+| **Ícone 48x48** | `./icons/icon48.png` | Gerenciador de Extensões do Chrome (`chrome://extensions`) | PNG (48x48) |
+| **Ícone 16x16** | `./icons/icon16.png` | Barra de Ferramentas e Favicon | PNG (16x16) |
+| **Favicon SVG** | `./favicon.svg` | Aba do Navegador com suporte a Modo Escuro/Claro | SVG Vetorial |
+| **Web Manifest** | `./manifest.webmanifest` | PWA e metadados de instalação | JSON |
+
+> **Dica para uso em páginas externas**: No GitHub Pages, os ícones podem ser referenciados diretamente por `https://<seu-usuario>.github.io/<seu-repositorio>/icons/icon128.png` ou `https://raw.githubusercontent.com/<seu-usuario>/<seu-repositorio>/main/public/icons/icon128.png`.
 
 ---
 

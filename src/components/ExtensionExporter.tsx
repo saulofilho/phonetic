@@ -179,6 +179,192 @@ export const ExtensionExporter: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Icon URL Paths & Assets Matrix */}
+      <div className="bg-[#080d16] border-2 border-cyan-500/30 rounded-2xl p-6 shadow-xl space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyan-500/20 pb-3">
+          <div>
+            <div className="flex items-center space-x-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(0,240,255,1)]" />
+              <h3 className="text-lg font-black text-white tracking-wide">
+                ICONS & ASSETS URL PATH MATRIX
+              </h3>
+            </div>
+            <p className="text-xs text-slate-400 mt-1">
+              Rotas e paths dos ícones para o Chrome Web Store, Manifest V3, Web App Manifest e GitHub Pages.
+            </p>
+          </div>
+          <span className="text-[10px] text-cyan-300 bg-cyan-950 px-3 py-1 rounded-full border border-cyan-500/40 font-mono">
+            CYBERPUNK NEON PACK
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {/* Icon 128px */}
+          <div className="bg-black/80 border border-cyan-500/40 rounded-xl p-4 flex flex-col items-center text-center space-y-3 shadow-[0_0_15px_rgba(0,240,255,0.1)]">
+            <div className="w-16 h-16 rounded-2xl bg-[#05070f] border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_15px_rgba(0,240,255,0.5)] relative overflow-hidden">
+              <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500 font-mono">/ə/</span>
+              <span className="absolute bottom-1 right-1 text-[8px] text-pink-400 font-bold">128</span>
+            </div>
+            <div className="space-y-1 w-full">
+              <div className="font-bold text-xs text-white">Ícone 128x128 (Store & App)</div>
+              <code className="block text-[10px] text-cyan-300 bg-slate-900/90 px-2 py-1 rounded border border-cyan-500/30 truncate">
+                icons/icon128.png
+              </code>
+            </div>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText('icons/icon128.png');
+                alert('Path "icons/icon128.png" copiado!');
+              }}
+              className="w-full text-[11px] bg-cyan-950 hover:bg-cyan-900 text-cyan-300 py-1.5 rounded-lg border border-cyan-500/40 font-bold cursor-pointer transition-colors"
+            >
+              COPIAR PATH
+            </button>
+          </div>
+
+          {/* Icon 48px */}
+          <div className="bg-black/80 border border-cyan-500/40 rounded-xl p-4 flex flex-col items-center text-center space-y-3">
+            <div className="w-14 h-14 rounded-xl bg-[#05070f] border border-cyan-400 flex items-center justify-center shadow-[0_0_10px_rgba(0,240,255,0.4)] relative">
+              <span className="text-xl font-black text-cyan-300 font-mono">/ə/</span>
+              <span className="absolute bottom-1 right-1 text-[8px] text-pink-400 font-bold">48</span>
+            </div>
+            <div className="space-y-1 w-full">
+              <div className="font-bold text-xs text-white">Ícone 48x48 (Gerenciador)</div>
+              <code className="block text-[10px] text-cyan-300 bg-slate-900/90 px-2 py-1 rounded border border-cyan-500/30 truncate">
+                icons/icon48.png
+              </code>
+            </div>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText('icons/icon48.png');
+                alert('Path "icons/icon48.png" copiado!');
+              }}
+              className="w-full text-[11px] bg-cyan-950 hover:bg-cyan-900 text-cyan-300 py-1.5 rounded-lg border border-cyan-500/40 font-bold cursor-pointer transition-colors"
+            >
+              COPIAR PATH
+            </button>
+          </div>
+
+          {/* Icon 16px */}
+          <div className="bg-black/80 border border-cyan-500/40 rounded-xl p-4 flex flex-col items-center text-center space-y-3">
+            <div className="w-12 h-12 rounded-lg bg-[#05070f] border border-cyan-400 flex items-center justify-center shadow-[0_0_10px_rgba(0,240,255,0.4)] relative">
+              <span className="text-sm font-black text-cyan-300 font-mono">ə</span>
+              <span className="absolute bottom-0.5 right-1 text-[8px] text-pink-400 font-bold">16</span>
+            </div>
+            <div className="space-y-1 w-full">
+              <div className="font-bold text-xs text-white">Ícone 16x16 (Favicon/Barra)</div>
+              <code className="block text-[10px] text-cyan-300 bg-slate-900/90 px-2 py-1 rounded border border-cyan-500/30 truncate">
+                icons/icon16.png
+              </code>
+            </div>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText('icons/icon16.png');
+                alert('Path "icons/icon16.png" copiado!');
+              }}
+              className="w-full text-[11px] bg-cyan-950 hover:bg-cyan-900 text-cyan-300 py-1.5 rounded-lg border border-cyan-500/40 font-bold cursor-pointer transition-colors"
+            >
+              COPIAR PATH
+            </button>
+          </div>
+
+          {/* Vector SVG */}
+          <div className="bg-black/80 border border-pink-500/40 rounded-xl p-4 flex flex-col items-center text-center space-y-3 shadow-[0_0_15px_rgba(255,0,127,0.1)]">
+            <div className="w-14 h-14 rounded-2xl bg-[#05070f] border-2 border-pink-400 flex items-center justify-center shadow-[0_0_15px_rgba(255,0,127,0.4)] relative">
+              <span className="text-xl">⚡</span>
+              <span className="absolute bottom-1 right-1 text-[8px] text-cyan-300 font-bold">SVG</span>
+            </div>
+            <div className="space-y-1 w-full">
+              <div className="font-bold text-xs text-pink-300">Ícone Vetorial SVG HUD</div>
+              <code className="block text-[10px] text-pink-300 bg-slate-900/90 px-2 py-1 rounded border border-pink-500/30 truncate">
+                public/favicon.svg
+              </code>
+            </div>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText('./favicon.svg');
+                alert('Path "./favicon.svg" copiado!');
+              }}
+              className="w-full text-[11px] bg-pink-950/80 hover:bg-pink-900 text-pink-300 py-1.5 rounded-lg border border-pink-500/40 font-bold cursor-pointer transition-colors"
+            >
+              COPIAR PATH
+            </button>
+          </div>
+        </div>
+
+        {/* CDN / Raw URL Reference */}
+        <div className="bg-black/60 p-4 rounded-xl border border-cyan-500/20 text-xs space-y-2">
+          <div className="text-cyan-300 font-bold flex items-center gap-1.5">
+            <Zap className="w-3.5 h-3.5 text-yellow-300" />
+            URL ABSOLUTA PARA CARREGAMENTO EXTERNO / WEB STORE:
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px]">
+            <div className="bg-slate-950 p-2.5 rounded border border-slate-800">
+              <span className="text-slate-400 block text-[10px]">Path Relativo (GitHub Pages & Extension):</span>
+              <span className="text-cyan-300 font-mono">./icons/icon128.png</span>
+            </div>
+            <div className="bg-slate-950 p-2.5 rounded border border-slate-800">
+              <span className="text-slate-400 block text-[10px]">URL Favicon Universal (SVG):</span>
+              <span className="text-pink-300 font-mono">./favicon.svg</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* GitHub Pages Version & CI/CD Deployment Section */}
+      <div className="bg-[#080d16] border-2 border-emerald-500/30 rounded-2xl p-6 shadow-xl space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-emerald-500/20 pb-3">
+          <div className="flex items-center space-x-2.5">
+            <div className="w-3 h-3 rounded-full bg-emerald-400 animate-ping inline-block" />
+            <h3 className="text-lg font-black text-white tracking-wide">
+              VERSÃO GITHUB PAGES // DEPLOY ESTÁTICO
+            </h3>
+          </div>
+          <span className="text-[10px] text-emerald-300 bg-emerald-950/90 px-3 py-1 rounded-full border border-emerald-500/40 font-mono">
+            AUTOMATED WORKFLOW READY
+          </span>
+        </div>
+
+        <p className="text-xs text-slate-300 leading-relaxed">
+          Esta aplicação foi estruturada com suporte nativo para ser hospedada gratuitamente no <strong>GitHub Pages</strong> (<code className="text-emerald-300">https://seu-usuario.github.io/seu-repositorio/</code>). O motor fonético híbrido e a síntese de voz (Web Speech API) funcionam 100% no navegador sem necessidade de backend!
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-black/90 p-4 rounded-xl border border-emerald-500/30 space-y-2">
+            <h4 className="font-bold text-xs text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
+              <Activity className="w-3.5 h-3.5 text-emerald-400" /> 1. DEPLOY AUTOMÁTICO (GITHUB ACTIONS)
+            </h4>
+            <p className="text-[11px] text-slate-400 leading-relaxed">
+              O arquivo de workflow <code className="text-cyan-300 font-mono">.github/workflows/deploy-pages.yml</code> já está configurado. Ao dar <code className="text-cyan-300 font-mono">git push</code> na branch <code className="text-cyan-300 font-mono">main</code>, o GitHub compila e publica seu site automaticamente!
+            </p>
+            <div className="text-[10px] text-slate-300 bg-slate-900 p-2 rounded border border-slate-800 font-mono">
+              Ative em: <strong>Settings &gt; Pages &gt; Source: GitHub Actions</strong>
+            </div>
+          </div>
+
+          <div className="bg-black/90 p-4 rounded-xl border border-emerald-500/30 space-y-2">
+            <h4 className="font-bold text-xs text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
+              <Cpu className="w-3.5 h-3.5 text-emerald-400" /> 2. COMANDO DE BUILD LOCAL
+            </h4>
+            <p className="text-[11px] text-slate-400 leading-relaxed">
+              Para gerar os arquivos estáticos otimizados para qualquer subdiretório do GitHub Pages:
+            </p>
+            <div className="bg-slate-950 p-2.5 rounded border border-cyan-500/40 text-cyan-300 font-mono text-[11px] flex items-center justify-between">
+              <code>npm run build:gh-pages</code>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText('npm run build:gh-pages');
+                  alert('Comando copiado!');
+                }}
+                className="text-[10px] text-emerald-400 hover:text-emerald-300 ml-2 uppercase font-bold"
+              >
+                Copiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

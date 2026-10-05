@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Redirecting to PhoneticTranslate...</title>
+    <script>
+      // Single Page Application redirect for GitHub Pages
+      sessionStorage.redirect = location.href;
+      var pathSegmentsToKeep = 1;
+      var l = window.location;
+      var repoName = l.pathname.split('/')[1] || '';
+      var target = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + '/' + (repoName ? repoName + '/' : '');
+      window.location.replace(target);
+    </script>
+  </head>
+  <body style="background: #05070f; color: #00f0ff; font-family: monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+    <div>
+      <h2>⚡ PHONETIC//CYBER</h2>
+      <p>Redirecionando para o estúdio...</p>
+    </div>
+  </body>
+</html>

@@ -126,12 +126,26 @@ export default function App() {
       <footer className="border-t border-cyan-500/20 bg-[#05070f] py-6 text-slate-500 text-xs mt-auto font-mono">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
+            <img src="./favicon.svg" alt="Icon" className="w-4 h-4 inline-block" />
             <span className="font-black text-cyan-400">PHONETIC//CYBER V3</span>
             <span>•</span>
-            <span className="text-slate-400">NEURAL IPA TRANSLATION MATRIX</span>
+            <span className="text-slate-400">GITHUB PAGES & EXTENSION MATRIX</span>
           </div>
 
           <div className="flex items-center space-x-4">
+            <button
+              onClick={() => setActiveTab('code')}
+              className="text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer flex items-center gap-1"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
+              <span>GITHUB PAGES</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('code')}
+              className="hover:text-cyan-300 transition-colors cursor-pointer"
+            >
+              ICONS & ASSETS
+            </button>
             <button
               onClick={() => setActiveTab('ipa-chart')}
               className="hover:text-cyan-300 transition-colors cursor-pointer"
@@ -139,16 +153,10 @@ export default function App() {
               TABELA IPA
             </button>
             <button
-              onClick={() => setActiveTab('code')}
-              className="hover:text-cyan-300 transition-colors cursor-pointer"
-            >
-              CÓDIGO FONTE
-            </button>
-            <button
               onClick={() => downloadExtensionZip()}
               className="text-pink-400 hover:text-pink-300 font-bold cursor-pointer"
             >
-              DOWNLOAD ZIP
+              DOWNLOAD .ZIP
             </button>
           </div>
         </div>

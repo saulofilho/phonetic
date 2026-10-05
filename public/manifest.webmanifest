@@ -1,0 +1,31 @@
+{
+  "name": "PhoneticTranslate - Chrome Extension & Studio",
+  "short_name": "PhoneticCyber",
+  "description": "Extensão para Google Chrome e estúdio interativo de tradução com transcrição fonética precisa (IPA, Respelling, Pinyin, Romaji)",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#05070f",
+  "theme_color": "#00f0ff",
+  "icons": [
+    {
+      "src": "./icons/icon16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/icon48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/icon128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

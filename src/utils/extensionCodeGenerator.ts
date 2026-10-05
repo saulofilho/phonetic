@@ -1009,8 +1009,33 @@ Plugin para Google Chrome que realiza **tradução instantânea acompanhada de t
 - \`icons/\`: Ícones 16x16, 48x48 e 128x128
 `;
 
+  const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="cyberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="50%" stop-color="#7000ff" />
+      <stop offset="100%" stop-color="#ff007f" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="#05070f" stroke="#00f0ff" stroke-width="2" />
+  <path d="M 12 28 L 12 12 L 28 12" fill="none" stroke="#ff007f" stroke-width="2" />
+  <path d="M 116 28 L 116 12 L 100 12" fill="none" stroke="#00f0ff" stroke-width="2" />
+  <path d="M 12 100 L 12 116 L 28 116" fill="none" stroke="#00f0ff" stroke-width="2" />
+  <path d="M 116 100 L 116 116 L 100 116" fill="none" stroke="#ff007f" stroke-width="2" />
+  <line x1="28" y1="64" x2="28" y2="64" stroke="#00f0ff" stroke-width="4" stroke-linecap="round" />
+  <line x1="38" y1="52" x2="38" y2="76" stroke="#00f0ff" stroke-width="4" stroke-linecap="round" />
+  <line x1="48" y1="40" x2="48" y2="88" stroke="url(#cyberGrad)" stroke-width="4" stroke-linecap="round" />
+  <text x="74" y="76" font-family="monospace" font-size="44" font-weight="900" fill="url(#cyberGrad)" filter="url(#glow)" text-anchor="middle">/ə/</text>
+  <line x1="100" y1="46" x2="100" y2="82" stroke="#ff007f" stroke-width="4" stroke-linecap="round" />
+  <circle cx="106" cy="22" r="3" fill="#00ff66" />
+</svg>`;
+
   return [
-    { name: 'manifest.json', path: 'manifest.json', content: manifestJson, description: 'Manifest V3 com permissões e endpoints', language: 'json' },
+    { name: 'manifest.json', path: 'manifest.json', content: manifestJson, description: 'Manifest V3 com permissões, ícones e endpoints', language: 'json' },
     { name: 'background.js', path: 'background.js', content: backgroundJs, description: 'Service Worker em segundo plano & menu de contexto', language: 'javascript' },
     { name: 'content.js', path: 'content.js', content: contentJs, description: 'Script de injeção e balão fonético na página web', language: 'javascript' },
     { name: 'content.css', path: 'content.css', content: contentCss, description: 'Estilos CSS do balão flutuante na página', language: 'css' },
@@ -1019,8 +1044,56 @@ Plugin para Google Chrome que realiza **tradução instantânea acompanhada de t
     { name: 'popup.css', path: 'popup.css', content: popupCss, description: 'Estilos do popup', language: 'css' },
     { name: 'options.html', path: 'options.html', content: optionsHtml, description: 'Interface de configurações da extensão', language: 'html' },
     { name: 'options.js', path: 'options.js', content: optionsJs, description: 'Lógica de salvamento das configurações', language: 'javascript' },
+    { name: 'icon.svg', path: 'icons/icon.svg', content: iconSvg, description: 'Ícone vetorial Cyberpunk HUD (128x128)', language: 'html' },
     { name: 'README.md', path: 'README.md', content: readmeMd, description: 'Guia passo a passo de instalação no Google Chrome', language: 'markdown' }
   ];
+}
+
+function renderCyberpunkIconCanvas(size: number): HTMLCanvasElement {
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return canvas;
+
+  const scale = size / 128;
+
+  // Background
+  ctx.fillStyle = '#05070f';
+  ctx.beginPath();
+  if (ctx.roundRect) {
+    ctx.roundRect(4 * scale, 4 * scale, 120 * scale, 120 * scale, 24 * scale);
+  } else {
+    ctx.rect(4 * scale, 4 * scale, 120 * scale, 120 * scale);
+  }
+  ctx.fill();
+
+  // Cyber border
+  ctx.strokeStyle = '#00f0ff';
+  ctx.lineWidth = Math.max(1, 2 * scale);
+  ctx.stroke();
+
+  // Neon gradient text /ə/
+  const grad = ctx.createLinearGradient(0, 0, size, size);
+  grad.addColorStop(0, '#00f0ff');
+  grad.addColorStop(0.5, '#bd00ff');
+  grad.addColorStop(1, '#ff007f');
+
+  if (size >= 32) {
+    ctx.fillStyle = grad;
+    ctx.font = `900 ${Math.floor(40 * scale)}px monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('/ə/', size / 2, size / 2);
+  } else {
+    ctx.fillStyle = '#00f0ff';
+    ctx.font = `bold ${Math.floor(12 * scale)}px monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('ə', size / 2, size / 2);
+  }
+
+  return canvas;
 }
 
 export async function downloadExtensionZip(): Promise<void> {
@@ -1031,34 +1104,14 @@ export async function downloadExtensionZip(): Promise<void> {
     zip.file(file.path, file.content);
   });
 
-  // Generate simple transparent/colored placeholder PNG icons or SVG data
-  const iconCanvas = document.createElement('canvas');
-  iconCanvas.width = 128;
-  iconCanvas.height = 128;
-  const ctx = iconCanvas.getContext('2d');
-  if (ctx) {
-    // Draw stylish purple gradient icon with phonetic symbol
-    const gradient = ctx.createLinearGradient(0, 0, 128, 128);
-    gradient.addColorStop(0, '#4f46e5');
-    gradient.addColorStop(1, '#7c3aed');
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.roundRect(0, 0, 128, 128, 28);
-    ctx.fill();
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 64px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('🗣️', 64, 64);
-  }
-
-  // Helper to convert canvas to blob
-  const iconBlob = await new Promise<Blob | null>(res => iconCanvas.toBlob(res, 'image/png'));
-  if (iconBlob) {
-    zip.file('icons/icon128.png', iconBlob);
-    zip.file('icons/icon48.png', iconBlob);
-    zip.file('icons/icon16.png', iconBlob);
+  // Generate Cyberpunk PNG icons (128, 48, 16)
+  const sizes = [128, 48, 16];
+  for (const size of sizes) {
+    const canvas = renderCyberpunkIconCanvas(size);
+    const blob = await new Promise<Blob | null>(res => canvas.toBlob(res, 'image/png'));
+    if (blob) {
+      zip.file(`icons/icon${size}.png`, blob);
+    }
   }
 
   const content = await zip.generateAsync({ type: 'blob' });
