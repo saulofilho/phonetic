@@ -21,6 +21,7 @@ export function generateExtensionFiles(): ExtensionFile[] {
     "default_title": "PhoneticTranslate Studio",
     "default_icon": {
       "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     }
@@ -42,6 +43,7 @@ export function generateExtensionFiles(): ExtensionFile[] {
   },
   "icons": {
     "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   }
@@ -1104,8 +1106,8 @@ export async function downloadExtensionZip(): Promise<void> {
     zip.file(file.path, file.content);
   });
 
-  // Generate Cyberpunk PNG icons (128, 48, 16)
-  const sizes = [128, 48, 16];
+  // Generate Cyberpunk PNG icons (128, 48, 32, 16)
+  const sizes = [128, 48, 32, 16];
   for (const size of sizes) {
     const canvas = renderCyberpunkIconCanvas(size);
     const blob = await new Promise<Blob | null>(res => canvas.toBlob(res, 'image/png'));

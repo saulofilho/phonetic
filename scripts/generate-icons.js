@@ -114,12 +114,14 @@ if (!fs.existsSync(iconsDir)) fs.mkdirSync(iconsDir, { recursive: true });
 // Create PNG icons
 const png128 = createCyberpunkPng(128, 128);
 const png48 = createCyberpunkPng(48, 48);
+const png32 = createCyberpunkPng(32, 32);
 const png16 = createCyberpunkPng(16, 16);
 
 fs.writeFileSync(path.join(iconsDir, 'icon128.png'), png128);
 fs.writeFileSync(path.join(iconsDir, 'icon48.png'), png48);
+fs.writeFileSync(path.join(iconsDir, 'icon32.png'), png32);
 fs.writeFileSync(path.join(iconsDir, 'icon16.png'), png16);
-fs.writeFileSync(path.join(publicDir, 'favicon.ico'), png48);
+fs.writeFileSync(path.join(publicDir, 'favicon.ico'), png32);
 
 // Create Cyberpunk SVG Icon
 const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">

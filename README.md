@@ -186,7 +186,8 @@ Os assets visuais da extensão e do aplicativo web seguem o padrão Cyberpunk Ne
 | :--- | :--- | :--- | :--- |
 | **Ícone 128x128** | `./icons/icon128.png` | Chrome Web Store, App e PWA Manifest | PNG (128x128) |
 | **Ícone 48x48** | `./icons/icon48.png` | Gerenciador de Extensões do Chrome (`chrome://extensions`) | PNG (48x48) |
-| **Ícone 16x16** | `./icons/icon16.png` | Barra de Ferramentas e Favicon | PNG (16x16) |
+| **Ícone 32x32** | `./icons/icon32.png` | Windows Display Scaling, Retina Favicon | PNG (32x32) |
+| **Ícone 16x16** | `./icons/icon16.png` | Barra de Ferramentas e Favicon Clássico | PNG (16x16) |
 | **Favicon SVG** | `./favicon.svg` | Aba do Navegador com suporte a Modo Escuro/Claro | SVG Vetorial |
 | **Web Manifest** | `./manifest.webmanifest` | PWA e metadados de instalação | JSON |
 

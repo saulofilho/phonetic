@@ -19,11 +19,20 @@ export const ExtensionExporter: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<ExtensionFile>(files[0]);
   const [copied, setCopied] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [copiedPath, setCopiedPath] = useState<string | null>(null);
+  const [githubUser, setGithubUser] = useState('saulosilvaf');
+  const [githubRepo, setGithubRepo] = useState('phonetic');
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(selectedFile.content);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleCopyPath = (pathText: string) => {
+    navigator.clipboard.writeText(pathText);
+    setCopiedPath(pathText);
+    setTimeout(() => setCopiedPath(null), 2000);
   };
 
   const handleDownloadZip = async () => {
@@ -191,122 +200,240 @@ export const ExtensionExporter: React.FC = () => {
               </h3>
             </div>
             <p className="text-xs text-slate-400 mt-1">
-              Rotas e paths dos ícones para o Chrome Web Store, Manifest V3, Web App Manifest e GitHub Pages.
+              Rotas relativas e URLs absolutas para Chrome Extension, Manifest V3, Web App Manifest e GitHub Pages.
             </p>
           </div>
           <span className="text-[10px] text-cyan-300 bg-cyan-950 px-3 py-1 rounded-full border border-cyan-500/40 font-mono">
-            CYBERPUNK NEON PACK
+            CYBERPUNK NEON PACK (128 / 48 / 32 / 16 / SVG)
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* Dynamic GitHub URL Generator */}
+        <div className="bg-black/90 p-4 rounded-xl border border-cyan-500/40 space-y-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <span className="text-xs font-bold text-cyan-300 flex items-center gap-1.5 font-mono">
+              <Zap className="w-3.5 h-3.5 text-yellow-300" /> GERADOR DE URL ABSOLUTA (GITHUB PAGES & CDN)
+            </span>
+            <span className="text-[10px] text-slate-400">Insira seu usuário e repositório para gerar os links:</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div>
+              <label className="text-[10px] text-slate-400 block mb-1 font-mono uppercase">Usuário GitHub:</label>
+              <input
+                type="text"
+                value={githubUser}
+                onChange={(e) => setGithubUser(e.target.value)}
+                placeholder="ex: saulosilvaf"
+                className="w-full bg-[#050811] border border-cyan-500/40 rounded-lg px-3 py-1.5 text-cyan-200 font-mono text-xs focus:outline-none focus:border-cyan-300"
+              />
+            </div>
+            <div>
+              <label className="text-[10px] text-slate-400 block mb-1 font-mono uppercase">Nome do Repositório:</label>
+              <input
+                type="text"
+                value={githubRepo}
+                onChange={(e) => setGithubRepo(e.target.value)}
+                placeholder="ex: phonetic"
+                className="w-full bg-[#050811] border border-cyan-500/40 rounded-lg px-3 py-1.5 text-cyan-200 font-mono text-xs focus:outline-none focus:border-cyan-300"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Icons Grid with Real Previews and Copy Feedback */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {/* Icon 128px */}
-          <div className="bg-black/80 border border-cyan-500/40 rounded-xl p-4 flex flex-col items-center text-center space-y-3 shadow-[0_0_15px_rgba(0,240,255,0.1)]">
+          <div className="bg-black/80 border border-cyan-500/40 rounded-xl p-3.5 flex flex-col items-center text-center space-y-2.5 shadow-[0_0_15px_rgba(0,240,255,0.1)]">
             <div className="w-16 h-16 rounded-2xl bg-[#05070f] border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_15px_rgba(0,240,255,0.5)] relative overflow-hidden">
               <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500 font-mono">/ə/</span>
               <span className="absolute bottom-1 right-1 text-[8px] text-pink-400 font-bold">128</span>
             </div>
             <div className="space-y-1 w-full">
-              <div className="font-bold text-xs text-white">Ícone 128x128 (Store & App)</div>
+              <div className="font-bold text-xs text-white">128x128 (Store & PWA)</div>
               <code className="block text-[10px] text-cyan-300 bg-slate-900/90 px-2 py-1 rounded border border-cyan-500/30 truncate">
                 icons/icon128.png
               </code>
             </div>
             <button
-              onClick={() => {
-                navigator.clipboard.writeText('icons/icon128.png');
-                alert('Path "icons/icon128.png" copiado!');
-              }}
-              className="w-full text-[11px] bg-cyan-950 hover:bg-cyan-900 text-cyan-300 py-1.5 rounded-lg border border-cyan-500/40 font-bold cursor-pointer transition-colors"
+              onClick={() => handleCopyPath('icons/icon128.png')}
+              className={`w-full text-[11px] py-1.5 rounded-lg border font-bold cursor-pointer transition-colors ${
+                copiedPath === 'icons/icon128.png'
+                  ? 'bg-emerald-950 text-emerald-300 border-emerald-400'
+                  : 'bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border-cyan-500/40'
+              }`}
             >
-              COPIAR PATH
+              {copiedPath === 'icons/icon128.png' ? '✓ COPIADO!' : 'COPIAR PATH'}
             </button>
           </div>
 
           {/* Icon 48px */}
-          <div className="bg-black/80 border border-cyan-500/40 rounded-xl p-4 flex flex-col items-center text-center space-y-3">
+          <div className="bg-black/80 border border-cyan-500/40 rounded-xl p-3.5 flex flex-col items-center text-center space-y-2.5">
             <div className="w-14 h-14 rounded-xl bg-[#05070f] border border-cyan-400 flex items-center justify-center shadow-[0_0_10px_rgba(0,240,255,0.4)] relative">
               <span className="text-xl font-black text-cyan-300 font-mono">/ə/</span>
               <span className="absolute bottom-1 right-1 text-[8px] text-pink-400 font-bold">48</span>
             </div>
             <div className="space-y-1 w-full">
-              <div className="font-bold text-xs text-white">Ícone 48x48 (Gerenciador)</div>
+              <div className="font-bold text-xs text-white">48x48 (Gerenciador)</div>
               <code className="block text-[10px] text-cyan-300 bg-slate-900/90 px-2 py-1 rounded border border-cyan-500/30 truncate">
                 icons/icon48.png
               </code>
             </div>
             <button
-              onClick={() => {
-                navigator.clipboard.writeText('icons/icon48.png');
-                alert('Path "icons/icon48.png" copiado!');
-              }}
-              className="w-full text-[11px] bg-cyan-950 hover:bg-cyan-900 text-cyan-300 py-1.5 rounded-lg border border-cyan-500/40 font-bold cursor-pointer transition-colors"
+              onClick={() => handleCopyPath('icons/icon48.png')}
+              className={`w-full text-[11px] py-1.5 rounded-lg border font-bold cursor-pointer transition-colors ${
+                copiedPath === 'icons/icon48.png'
+                  ? 'bg-emerald-950 text-emerald-300 border-emerald-400'
+                  : 'bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border-cyan-500/40'
+              }`}
             >
-              COPIAR PATH
+              {copiedPath === 'icons/icon48.png' ? '✓ COPIADO!' : 'COPIAR PATH'}
+            </button>
+          </div>
+
+          {/* Icon 32px */}
+          <div className="bg-black/80 border border-cyan-500/40 rounded-xl p-3.5 flex flex-col items-center text-center space-y-2.5">
+            <div className="w-12 h-12 rounded-lg bg-[#05070f] border border-cyan-400 flex items-center justify-center shadow-[0_0_10px_rgba(0,240,255,0.4)] relative">
+              <span className="text-base font-black text-cyan-300 font-mono">ə</span>
+              <span className="absolute bottom-0.5 right-1 text-[8px] text-pink-400 font-bold">32</span>
+            </div>
+            <div className="space-y-1 w-full">
+              <div className="font-bold text-xs text-white">32x32 (Windows / Tab)</div>
+              <code className="block text-[10px] text-cyan-300 bg-slate-900/90 px-2 py-1 rounded border border-cyan-500/30 truncate">
+                icons/icon32.png
+              </code>
+            </div>
+            <button
+              onClick={() => handleCopyPath('icons/icon32.png')}
+              className={`w-full text-[11px] py-1.5 rounded-lg border font-bold cursor-pointer transition-colors ${
+                copiedPath === 'icons/icon32.png'
+                  ? 'bg-emerald-950 text-emerald-300 border-emerald-400'
+                  : 'bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border-cyan-500/40'
+              }`}
+            >
+              {copiedPath === 'icons/icon32.png' ? '✓ COPIADO!' : 'COPIAR PATH'}
             </button>
           </div>
 
           {/* Icon 16px */}
-          <div className="bg-black/80 border border-cyan-500/40 rounded-xl p-4 flex flex-col items-center text-center space-y-3">
-            <div className="w-12 h-12 rounded-lg bg-[#05070f] border border-cyan-400 flex items-center justify-center shadow-[0_0_10px_rgba(0,240,255,0.4)] relative">
-              <span className="text-sm font-black text-cyan-300 font-mono">ə</span>
-              <span className="absolute bottom-0.5 right-1 text-[8px] text-pink-400 font-bold">16</span>
+          <div className="bg-black/80 border border-cyan-500/40 rounded-xl p-3.5 flex flex-col items-center text-center space-y-2.5">
+            <div className="w-10 h-10 rounded-lg bg-[#05070f] border border-cyan-400 flex items-center justify-center shadow-[0_0_8px_rgba(0,240,255,0.4)] relative">
+              <span className="text-xs font-black text-cyan-300 font-mono">ə</span>
+              <span className="absolute bottom-0.5 right-0.5 text-[7px] text-pink-400 font-bold">16</span>
             </div>
             <div className="space-y-1 w-full">
-              <div className="font-bold text-xs text-white">Ícone 16x16 (Favicon/Barra)</div>
+              <div className="font-bold text-xs text-white">16x16 (Barra / Favicon)</div>
               <code className="block text-[10px] text-cyan-300 bg-slate-900/90 px-2 py-1 rounded border border-cyan-500/30 truncate">
                 icons/icon16.png
               </code>
             </div>
             <button
-              onClick={() => {
-                navigator.clipboard.writeText('icons/icon16.png');
-                alert('Path "icons/icon16.png" copiado!');
-              }}
-              className="w-full text-[11px] bg-cyan-950 hover:bg-cyan-900 text-cyan-300 py-1.5 rounded-lg border border-cyan-500/40 font-bold cursor-pointer transition-colors"
+              onClick={() => handleCopyPath('icons/icon16.png')}
+              className={`w-full text-[11px] py-1.5 rounded-lg border font-bold cursor-pointer transition-colors ${
+                copiedPath === 'icons/icon16.png'
+                  ? 'bg-emerald-950 text-emerald-300 border-emerald-400'
+                  : 'bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border-cyan-500/40'
+              }`}
             >
-              COPIAR PATH
+              {copiedPath === 'icons/icon16.png' ? '✓ COPIADO!' : 'COPIAR PATH'}
             </button>
           </div>
 
           {/* Vector SVG */}
-          <div className="bg-black/80 border border-pink-500/40 rounded-xl p-4 flex flex-col items-center text-center space-y-3 shadow-[0_0_15px_rgba(255,0,127,0.1)]">
-            <div className="w-14 h-14 rounded-2xl bg-[#05070f] border-2 border-pink-400 flex items-center justify-center shadow-[0_0_15px_rgba(255,0,127,0.4)] relative">
-              <span className="text-xl">⚡</span>
-              <span className="absolute bottom-1 right-1 text-[8px] text-cyan-300 font-bold">SVG</span>
+          <div className="bg-black/80 border border-pink-500/40 rounded-xl p-3.5 flex flex-col items-center text-center space-y-2.5 shadow-[0_0_15px_rgba(255,0,127,0.1)]">
+            <div className="w-12 h-12 rounded-xl bg-[#05070f] border-2 border-pink-400 flex items-center justify-center shadow-[0_0_15px_rgba(255,0,127,0.4)] relative">
+              <span className="text-lg">⚡</span>
+              <span className="absolute bottom-0.5 right-1 text-[7px] text-cyan-300 font-bold">SVG</span>
             </div>
             <div className="space-y-1 w-full">
-              <div className="font-bold text-xs text-pink-300">Ícone Vetorial SVG HUD</div>
+              <div className="font-bold text-xs text-pink-300">SVG Vetorial HUD</div>
               <code className="block text-[10px] text-pink-300 bg-slate-900/90 px-2 py-1 rounded border border-pink-500/30 truncate">
                 public/favicon.svg
               </code>
             </div>
             <button
-              onClick={() => {
-                navigator.clipboard.writeText('./favicon.svg');
-                alert('Path "./favicon.svg" copiado!');
-              }}
-              className="w-full text-[11px] bg-pink-950/80 hover:bg-pink-900 text-pink-300 py-1.5 rounded-lg border border-pink-500/40 font-bold cursor-pointer transition-colors"
+              onClick={() => handleCopyPath('./favicon.svg')}
+              className={`w-full text-[11px] py-1.5 rounded-lg border font-bold cursor-pointer transition-colors ${
+                copiedPath === './favicon.svg'
+                  ? 'bg-emerald-950 text-emerald-300 border-emerald-400'
+                  : 'bg-pink-950/80 hover:bg-pink-900 text-pink-300 border-pink-500/40'
+              }`}
             >
-              COPIAR PATH
+              {copiedPath === './favicon.svg' ? '✓ COPIADO!' : 'COPIAR PATH'}
             </button>
           </div>
         </div>
 
-        {/* CDN / Raw URL Reference */}
-        <div className="bg-black/60 p-4 rounded-xl border border-cyan-500/20 text-xs space-y-2">
+        {/* Computed Live Hosted URLs */}
+        <div className="bg-black/80 p-4 rounded-xl border border-cyan-500/30 text-xs space-y-3 font-mono">
           <div className="text-cyan-300 font-bold flex items-center gap-1.5">
             <Zap className="w-3.5 h-3.5 text-yellow-300" />
-            URL ABSOLUTA PARA CARREGAMENTO EXTERNO / WEB STORE:
+            ROTAS &amp; URLS COMPUTADAS PARA O REPOSITÓRIO:
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px]">
-            <div className="bg-slate-950 p-2.5 rounded border border-slate-800">
-              <span className="text-slate-400 block text-[10px]">Path Relativo (GitHub Pages & Extension):</span>
-              <span className="text-cyan-300 font-mono">./icons/icon128.png</span>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px]">
+            {/* GitHub Pages URL */}
+            <div className="bg-[#050811] p-3 rounded-lg border border-slate-800 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400 text-[10px] font-bold">1. GitHub Pages Hosted Icon URL:</span>
+                <button
+                  onClick={() => handleCopyPath(`https://${githubUser}.github.io/${githubRepo}/icons/icon128.png`)}
+                  className="text-[10px] text-cyan-400 hover:underline uppercase font-bold"
+                >
+                  {copiedPath === `https://${githubUser}.github.io/${githubRepo}/icons/icon128.png` ? '✓ Copiado' : 'Copiar URL'}
+                </button>
+              </div>
+              <div className="text-cyan-300 truncate bg-black p-1.5 rounded border border-cyan-500/20 select-all">
+                {`https://${githubUser}.github.io/${githubRepo}/icons/icon128.png`}
+              </div>
             </div>
-            <div className="bg-slate-950 p-2.5 rounded border border-slate-800">
-              <span className="text-slate-400 block text-[10px]">URL Favicon Universal (SVG):</span>
-              <span className="text-pink-300 font-mono">./favicon.svg</span>
+
+            {/* GitHub Raw URL */}
+            <div className="bg-[#050811] p-3 rounded-lg border border-slate-800 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400 text-[10px] font-bold">2. GitHub Raw CDN Icon URL:</span>
+                <button
+                  onClick={() => handleCopyPath(`https://raw.githubusercontent.com/${githubUser}/${githubRepo}/main/public/icons/icon128.png`)}
+                  className="text-[10px] text-pink-400 hover:underline uppercase font-bold"
+                >
+                  {copiedPath === `https://raw.githubusercontent.com/${githubUser}/${githubRepo}/main/public/icons/icon128.png` ? '✓ Copiado' : 'Copiar URL'}
+                </button>
+              </div>
+              <div className="text-pink-300 truncate bg-black p-1.5 rounded border border-pink-500/20 select-all">
+                {`https://raw.githubusercontent.com/${githubUser}/${githubRepo}/main/public/icons/icon128.png`}
+              </div>
+            </div>
+
+            {/* Manifest Relative Path */}
+            <div className="bg-[#050811] p-3 rounded-lg border border-slate-800 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400 text-[10px] font-bold">3. Chrome Manifest V3 Path (Local):</span>
+                <button
+                  onClick={() => handleCopyPath('icons/icon128.png')}
+                  className="text-[10px] text-emerald-400 hover:underline uppercase font-bold"
+                >
+                  {copiedPath === 'icons/icon128.png' ? '✓ Copiado' : 'Copiar Path'}
+                </button>
+              </div>
+              <div className="text-emerald-300 truncate bg-black p-1.5 rounded border border-emerald-500/20 select-all">
+                icons/icon128.png
+              </div>
+            </div>
+
+            {/* Web App Favicon Path */}
+            <div className="bg-[#050811] p-3 rounded-lg border border-slate-800 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400 text-[10px] font-bold">4. Favicon Universal (SVG):</span>
+                <button
+                  onClick={() => handleCopyPath('./favicon.svg')}
+                  className="text-[10px] text-yellow-400 hover:underline uppercase font-bold"
+                >
+                  {copiedPath === './favicon.svg' ? '✓ Copiado' : 'Copiar Path'}
+                </button>
+              </div>
+              <div className="text-yellow-300 truncate bg-black p-1.5 rounded border border-yellow-500/20 select-all">
+                ./favicon.svg
+              </div>
             </div>
           </div>
         </div>
@@ -353,13 +480,10 @@ export const ExtensionExporter: React.FC = () => {
             <div className="bg-slate-950 p-2.5 rounded border border-cyan-500/40 text-cyan-300 font-mono text-[11px] flex items-center justify-between">
               <code>npm run build:gh-pages</code>
               <button
-                onClick={() => {
-                  navigator.clipboard.writeText('npm run build:gh-pages');
-                  alert('Comando copiado!');
-                }}
-                className="text-[10px] text-emerald-400 hover:text-emerald-300 ml-2 uppercase font-bold"
+                onClick={() => handleCopyPath('npm run build:gh-pages')}
+                className="text-[10px] text-emerald-400 hover:text-emerald-300 ml-2 uppercase font-bold cursor-pointer"
               >
-                Copiar
+                {copiedPath === 'npm run build:gh-pages' ? '✓ Copiado' : 'Copiar'}
               </button>
             </div>
           </div>
